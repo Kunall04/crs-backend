@@ -1,6 +1,7 @@
 const express=require('express');
 const app=express();
 const mongoose = require('mongoose');
+require('dotenv').config();  //dotenv
 
 const { userRouter } = require('./routes/user.js');
 const { courseRouter } = require('./routes/course.js');
@@ -10,11 +11,17 @@ app.use('/user',userRouter);
 app.use('/allcourses',courseRouter);
 app.use('/admin',adminRouter);
 
-app.listen(3007);
 
-async function main(){
-    await mongoose.connect("mongodb+srv://admin:nqTRM9DmS50YZYDD@cluster0.d1zoolc.mongodb.net/coursera");
-    app.listen(3007);
+async function main() {
+    try {
+        await mongoose.connect(process.env.MONGO_CONNECTION);
+        app.listen(3007, ()=>{
+            console.log("listening");
+        });
+    }
+    catch(err) {
+        console.log("Error: ",err);
+    }
 }
 
 main();
