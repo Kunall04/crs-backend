@@ -27,7 +27,16 @@ courseRouter.post('/purchases', async function (req, res) {
     }
 });
 
-
+// list purchases for current user
+courseRouter.get('/purchases', async function (req, res) {
+    try {
+        const userId = req.userId;
+        const purchases = await PurchaseModel.find({ userId }).populate('courseId');
+        res.json({ purchases });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 module.exports = {
     courseRouter: courseRouter
