@@ -2,7 +2,7 @@ const { Router } = require('express');
 const userRouter = Router();
 const auth = require('./middleware/auth.js');
 
-
+app.use(auth);
 
 userRouter.post('/signup', async (req, res) => {
     try {
